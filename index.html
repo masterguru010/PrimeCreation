@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prime Creation - Eco-Friendly Bottles & Tiffin Boxes</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Prime Creation Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .product { border: 1px solid #ddd; padding: 10px; margin: 10px; display: inline-block; }
+        .cart { border: 2px solid #333; padding: 10px; margin-top: 20px; }
+        button { background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+    </style>
 </head>
 <body>
     <header>
@@ -37,25 +42,76 @@ Choose Prime Creation—where well-being meets responsibility!</p>
 
     <section id="products">
         <h2>Our Products</h2>
-        <div class="product">
+        <!-- Steel & Copper Bottles -->
+        <div class="product" data-name="Copper Elite Bottle" data-price="999">
             <h3>Copper Elite Bottle (1L)</h3>
+            <p>Pure copper, promotes health benefits</p>
             <p>Price: ₹999</p>
+            <button onclick="addToCart('Copper Elite Bottle', 999)">Add to Cart</button>
         </div>
-        <div class="product">
+        
+        <div class="product" data-name="SteelMax Insulated Bottle" data-price="799">
             <h3>SteelMax Insulated Bottle (1L)</h3>
+            <p>Keeps drinks hot/cold for 24 hours</p>
             <p>Price: ₹799</p>
+            <button onclick="addToCart('SteelMax Insulated Bottle', 799)">Add to Cart</button>
         </div>
-        <div class="product">
-            <h3>HybridTherm Bottle (Steel Outside, Copper Inside) (750ml)</h3>
+        
+        <div class="product" data-name="HybridTherm Bottle" data-price="899">
+            <h3>HybridTherm Bottle (750ml)</h3>
+            <p>Steel outside, copper inside for double benefits</p>
             <p>Price: ₹899</p>
+            <button onclick="addToCart('HybridTherm Bottle', 899)">Add to Cart</button>
         </div>
-        <div class="product">
+        
+        <div class="product" data-name="EcoSip Mini Bottle" data-price="599">
             <h3>EcoSip Mini Bottle (500ml)</h3>
+            <p>Compact, eco-friendly stainless steel</p>
             <p>Price: ₹599</p>
+            <button onclick="addToCart('EcoSip Mini Bottle', 599)">Add to Cart</button>
         </div>
-        <div class="product">
+        
+        <div class="product" data-name="SportsGrip Bottle" data-price="1199">
             <h3>SportsGrip Bottle (1.2L, with carry strap)</h3>
+            <p>With carry strap, perfect for gym and travel</p>
             <p>Price: ₹1,199</p>
+            <button onclick="addToCart('SportsGrip Bottle', 1199)">Add to Cart</button>
+        </div>
+        
+        <!-- Steel & Copper Tiffin Boxes -->
+        <div class="product" data-name="CopperPure Tiffin" data-price="1299">
+            <h3>CopperPure Tiffin (3-Tier, Leak-proof)</h3>
+            <p>Pure copper, maintains food freshness</p>
+            <p>Price: ₹1,299</p>
+            <button onclick="addToCart('CopperPure Tiffin', 1299)">Add to Cart</button>
+        </div>
+        
+        <div class="product" data-name="SteelFresh Bento Box" data-price="999">
+            <h3>SteelFresh Bento Box (2-Tier, Insulated)</h3>
+            <p>Keeps meals warm and fresh</p>
+            <p>Price: ₹999</p>
+            <button onclick="addToCart('SteelFresh Bento Box', 999)">Add to Cart</button>
+        </div>
+        
+        <div class="product" data-name="HybridDine Lunch Box" data-price="1499">
+            <h3>HybridDine Lunch Box (Steel + Copper Combo)</h3>
+            <p>Best of both materials, premium quality</p>
+            <p>Price: ₹1,499</p>
+            <button onclick="addToCart('HybridDine Lunch Box', 1499)">Add to Cart</button>
+        </div>
+        
+        <div class="product" data-name="SnackEase Compact Box" data-price="699">
+            <h3>SnackEase Compact Box (Single-layer, Portable)</h3>
+            <p>Perfect for snacks and light meals</p>
+            <p>Price: ₹699</p>
+            <button onclick="addToCart('SnackEase Compact Box', 699)">Add to Cart</button>
+        </div>
+        
+        <div class="product" data-name="FamilyFeast Tiffin" data-price="1799">
+            <h3>FamilyFeast Tiffin (4-Tier, Extra Capacity)</h3>
+            <p>Large capacity, perfect for families</p>
+            <p>Price: ₹1,799</p>
+            <button onclick="addToCart('FamilyFeast Tiffin', 1799)">Add to Cart</button>
         </div>
     </section>
 
@@ -76,5 +132,45 @@ Choose Prime Creation to embrace a safer, healthier tomorrow!</p>
     <footer>
         <p>&copy; 2025 Prime Creation by Priyam Mondal. All Rights Reserved.</p>
     </footer>
+
+    <div class="cart">
+        <h2>Shopping Cart</h2>
+        <ul id="cart-list"></ul>
+        <p><strong>Total: ₹<span id="cart-total">0</span></strong></p>
+        <button onclick="checkout()">Checkout</button>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+
+        function updateCart() {
+            let cartList = document.getElementById('cart-list');
+            let cartTotal = document.getElementById('cart-total');
+            cartList.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartList.innerHTML += `<li>${item.name} - ₹${item.price} <button onclick="removeFromCart(${index})">Remove</button></li>`;
+            });
+            cartTotal.innerText = total;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function checkout() {
+            alert('Thank you for your purchase! Total: ₹' + document.getElementById('cart-total').innerText);
+            cart = [];
+            updateCart();
+        }
+    </script>
 </body>
 </html>
+
